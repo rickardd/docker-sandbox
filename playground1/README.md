@@ -1,3 +1,11 @@
+```
+A simple example of an image that runs an express server.
+Run following to start it
+- cd playgorund1
+- docker build -t "my-image" .
+- docker run -p 3000:3000 my-image
+```
+
 ## Basics
 - Dockerfile with intructinos to an image
 - docker build -t "arbitrary-image-name:version3" ./path-to-Dockerfile
