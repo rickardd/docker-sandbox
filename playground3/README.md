@@ -27,9 +27,11 @@ volumes:
 - moving files in the dockerfile and also using volumes in the compose file can overwrite each other and cause issues, see comments above. 
 - Docker does caching so rebuild without cache can be useful sometimes.
   - `docker-compose down`
-  - `docker-compose build --no-cache`
+  - `docker-compose build --no-cache` **Note** this seems to delete/reset the database/volumes
   - `docker-compose up`
 
 ## Remove Unused Images
 - `docker system prune` 
 
+## logs
+`docker compose logs backend`

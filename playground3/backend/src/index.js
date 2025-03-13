@@ -40,7 +40,6 @@ const User = sequelize.define('User', {
 sequelize.sync();
 
 // CRUD API Endpoints
-
 app.post('/users', async (req, res) => {
   try {
     const user = await User.create(req.body);

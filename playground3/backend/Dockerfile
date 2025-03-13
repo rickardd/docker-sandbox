@@ -13,4 +13,4 @@ COPY ./src ./src
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "src/index.js"]
+CMD ["npx", "nodemon", "src/index.js"]
