@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  server1:
+    # This will rebuild the image on `docker-compose up`. the --build is not needed.
+    # Therefor build is often a better option than image for our own images while image: is good for dockerHub images as they will not change as often. 
+    build: 
+      context: ./server1 # context: path to the directory that contains the Dockerfile and any other files needed for the build process.
+    ports:
+      - "3001:3001"
+    volumes:
+      - data:/data
+    container_name: server1
+
+  server2:
+    build:
+      context: ./server2
+    ports:
+      - "3002:3002"
+    volumes:
+      # the :/data is just the name of a folder where we will store the data
+      # We can change this to e.g data:/hello and the data will still be share with server1.
+      # Server1 will have a folder /data and server2 a folder /hello on the container.
+      # Note that the code needs to reflect this folder structure. 
+      - data:/data 
+    container_name: server2
+
+volumes:
+  data:
