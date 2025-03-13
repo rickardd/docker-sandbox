@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
 
-
-
 const app = express();
 
 // Configure CORS to allow requests from http://127.0.0.1:8080
@@ -42,10 +40,22 @@ const User = sequelize.define('User', {
 sequelize.sync();
 
 // CRUD API Endpoints
+
 app.post('/users', async (req, res) => {
-  const user = await User.create(req.body);
-  res.status(201).json(user);
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    // Check if the error is a Sequelize validation error
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ error: 'Email must be unique rick' });
+    }
+    // Handle other errors
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while creating the user.' });
+  }
 });
+
 
 app.get('/users', async (req, res) => {
   const users = await User.findAll();
@@ -62,12 +72,17 @@ app.get('/users/:id', async (req, res) => {
 });
 
 app.put('/users/:id', async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  if (user) {
-    await user.update(req.body);
-    res.json(user);
-  } else {
-    res.status(404).send('User not found');
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (user) {
+      await user.update(req.body);
+      res.json(user);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while updating the user.' });
   }
 });
 
