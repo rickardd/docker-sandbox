@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple CRUD App</title>
+    <script>
+        async function fetchUsers() {
+            const response = await fetch('http://localhost:3000/users');
+            const users = await response.json();
+            const userList = document.getElementById('user-list');
+            userList.inner
+            userList.innerHTML = ''; // Clear the existing list
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = `${user.username} (${user.email})`;
+                userList.appendChild(li);
+            });
+        }
+
+        async function createUser() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+
+            await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email })
+            });
+
+            fetchUsers(); // Refresh the user list
+        }
+    </script>
+</head>
+<body>
+    <h1>Simple CRUD App</h1>
+    <h2>Create User</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button onclick="createUser()">Create User</button>
+
+    <h2>User List</h2>
+    <ul id="user-list"></ul>
+
+    <script>
+        // Fetch users on page load
+        fetchUsers();
+    </script>
+</body>
+</html>

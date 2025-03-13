@@ -1,0 +1,12 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "dependencies": {
+      "express": "^4.21.2",
+      "sequelize": "^6.37.6",
+      "sqlite3": "^5.1.7",
+      "cors": "2.8.5"
+    }
+  }
+  

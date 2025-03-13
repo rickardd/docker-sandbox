@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - "3000:3000"
+    # Live reload: copies files from host ./backend/src to the container /app/src if any files has changed on the host.
+    # volumes:
+    #   - ./backend/src:/app/src
+    depends_on:
+      - db
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+
+  db:
+    container_name: db
+    image: alpine/sqlite # were using a lightweight alpine linux server for the db image. This will exit immediately as per design
+    volumes:
+      - db_data:/data
+
+volumes:
+  db_data:
